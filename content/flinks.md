@@ -1,5 +1,5 @@
 ---
-title: "站点示例"
+title: "别的站点"
 type: flinks
 url: flinks.html
 ---
