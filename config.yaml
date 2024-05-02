@@ -12,7 +12,7 @@
 
 # 站点域名，比如： https://hugo-next.eu.org
 # Website domain, eg: https://hugo-next.eu.org
-baseURL: /
+baseURL: https://luoxding.github.io/blog
 # 站点标题
 # Website title
 title: 布衣老罗的个人站点
@@ -138,11 +138,21 @@ menus:
       name: 其它站点
       pageref: /flinks.html
       pre: thumbs-up
-      weight: 5
+      weight: 6
     - identifier: archives
       name: 归档
       pageref: /archives
       pre: archive
+      weight: 5
+    - identifier: categories
+      name: 分类
+      pageref: /categories
+      pre: category
+      weight: 3
+    - identifier: tags
+      name: 标签
+      pageref: /tags
+      pre: tags
       weight: 4
     # - identifier: commonweal
     #   name: 公益 404
@@ -288,7 +298,7 @@ params:
     # Replace the default image and set the url here.
     # url: /imgs/hugo_next_avatar.png
     # url: /avatar.png
-    url: /avatar/IMG_20200509_173419.jpg
+    url: /avatar/linux.png
     # url: <a href="https://www.flaticon.com/free-icons/user" title="user icons">User icons created by Freepik - Flaticon</a>
     # 开启头像的圆形显示效果
     # If true, the avatar will be displayed in circle.
@@ -299,7 +309,7 @@ params:
   siteState: 
     # 是否在侧边栏显示文章、分类、标签信息
     # Posts / Categories / Tags in sidebar.
-    basic: true
+    basic: false
     # 站点访问信息
     # Site's view information
     views:  
