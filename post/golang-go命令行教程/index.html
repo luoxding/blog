@@ -1,0 +1,226 @@
+<!doctype html><html lang=zh-CN data-theme=dark><head><meta charset=UTF-8><meta name=viewport content="width=device-width"><meta name=theme-color content="#222" media="(prefers-color-scheme: dark)"><meta name=generator content="Hugo 0.125.5"><link rel="shortcut icon" type=image/x-icon href=/icons/wolf.svg><link rel=icon type=image/x-icon href=/icons/wolf.svg><link rel=icon type=image/png sizes=16x16 href><link rel=icon type=image/png sizes=32x32 href><link rel=apple-touch-icon sizes=180x180 href><meta itemprop=name content="Golang之命令行教程"><meta itemprop=description content="Go是由Robert Griesemer，Rob Pike和Ken Thompson在Google设计的一种静态类型的编译型编程语言。Go在语法上类似于C，但是具有内存安全性，垃圾回收，结构化类型和CSP样式的并发性。由于其域名golang.org，该语言通常称为“ Golang”，但专有名称是Go。"><meta itemprop=datePublished zgotmplz><meta itemprop=dateModified zgotmplz><meta itemprop=image content="https://luoxding.github.io/avatar/linux.png"><meta itemprop=keywords content="golang,command"><meta property="og:type" content="article"><meta property="og:title" content="Golang之命令行教程"><meta property="og:description" content="Go是由Robert Griesemer，Rob Pike和Ken Thompson在Google设计的一种静态类型的编译型编程语言。Go在语法上类似于C，但是具有内存安全性，垃圾回收，结构化类型和CSP样式的并发性。由于其域名golang.org，该语言通常称为“ Golang”，但专有名称是Go。"><meta property="og:image" content="/avatar/linux.png"><meta property="og:image:width" content="312"><meta property="og:image:height" content="312"><meta property="og:image:type" content="image/jpeg/png/svg/jpg"><meta property="og:url" content="https://luoxding.github.io/blog/post/golang-go%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%95%99%E7%A8%8B/"><meta property="og:site_name" content="布衣老罗的个人站点"><meta property="og:locale" content="zh-CN"><meta property="article:author" content="shongsheng"><meta property="article:published_time" content="2020-03-19 00:00:00 +0000 UTC"><meta property="article:modified_time" content="2020-03-19 00:00:00 +0000 UTC"><link type=text/css rel=stylesheet href=https://cdn.staticfile.org/font-awesome/6.1.2/css/all.min.css><link type=text/css rel=stylesheet href=https://cdn.staticfile.org/animate.css/3.1.1/animate.min.css><link type=text/css rel=stylesheet href=https://cdn.staticfile.org/viewerjs/1.11.0/viewer.min.css><link rel=stylesheet href=/blog/css/main.min.e3ab05386eb1ec81f9dbe208886d71373f5379f49779fa8edb068c3d72a843ac.css><script type=text/javascript>(function(){localDB={set:function(e,t,n){if(n===0)return;const s=new Date,o=n*864e5,i={value:t,expiry:s.getTime()+o};localStorage.setItem(e,JSON.stringify(i))},get:function(e){const t=localStorage.getItem(e);if(!t)return void 0;const n=JSON.parse(t),s=new Date;return s.getTime()>n.expiry?(localStorage.removeItem(e),void 0):n.value}},theme={active:function(){const e=localDB.get("theme");if(e==null)return;theme.toggle(e),window.matchMedia("(prefers-color-scheme: dark)").addListener(function(e){theme.toggle(e.matches?"dark":"light")})},toggle:function(e){document.documentElement.setAttribute("data-theme",e),localDB.set("theme",e,2);const t=document.querySelector("iframe.giscus-frame");if(t){const n={setConfig:{theme:e}};t.contentWindow.postMessage({giscus:n},"https://giscus.app")}}},theme.active()})(window)</script><script class=next-config data-name=page type=application/json>{"comments":false,"isHome":false,"isPage":true,"path":"golang-go%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%95%99%E7%A8%8B","permalink":"https://luoxding.github.io/blog/post/golang-go%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%95%99%E7%A8%8B/","title":"Golang之命令行教程","waline":{"js":[{"alias":"waline","alias_name":"@waline/client","file":"dist/pageview.js","name":"pageview","version":"2.13.0"},{"alias":"waline","alias_name":"@waline/client","file":"dist/comment.js","name":"comment","version":"2.13.0"}]}}</script><script type=text/javascript>document.addEventListener("DOMContentLoaded",()=>{var e=document.createElement("script");e.charset="UTF-8",e.src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js",e.async=!1,e.defer=!0,document.head.appendChild(e),e.onload=function(){NexT.utils.fmtBusuanzi()}})</script><title>Golang之命令行教程 - 布衣老罗的个人站点</title><noscript><link rel=stylesheet href=/css/noscript.css></noscript></head><body itemscope itemtype=http://schema.org/WebPage class=use-motion><div class=headband></div><main class=main><header class=header itemscope itemtype=http://schema.org/WPHeader><div class=header-inner><div class=site-brand-container><div class=site-nav-toggle><div class=toggle aria-label role=button><span class=toggle-line></span>
+<span class=toggle-line></span>
+<span class=toggle-line></span></div></div><div class=site-meta><a href=/ class=brand rel=start><i class=logo-line></i><h1 class=site-title>布衣老罗的个人站点</h1><i class=logo-line></i></a><p class=site-subtitle itemprop=description>记录生活学习的点点滴滴</p></div><div class=site-nav-right><div class="toggle popup-trigger"><i class="fa fa-search fa-fw fa-lg"></i></div></div></div><nav class=site-nav><ul class="main-menu menu"><li class="menu-item menu-item-home"><a href=/blog/ class=hvr-icon-pulse rel=section><i class="fa fa-home hvr-icon"></i>首页</a></li><li class="menu-item menu-item-about"><a href=/blog/about.html class=hvr-icon-pulse rel=section><i class="fa fa-user hvr-icon"></i>关于</a></li><li class="menu-item menu-item-categories"><a href=/blog/categories/ class=hvr-icon-pulse rel=section><i class="fa fa-category hvr-icon"></i>分类</a></li><li class="menu-item menu-item-tags"><a href=/blog/tags/ class=hvr-icon-pulse rel=section><i class="fa fa-tags hvr-icon"></i>标签</a></li><li class="menu-item menu-item-archives"><a href=/blog/archives/ class=hvr-icon-pulse rel=section><i class="fa fa-archive hvr-icon"></i>归档
+<span class=badge>21</span></a></li><li class="menu-item menu-item-flinks"><a href=/blog/flinks.html class=hvr-icon-pulse rel=section><i class="fa fa-thumbs-up hvr-icon"></i>其它站点</a></li><li class="menu-item menu-item-search"><a role=button class="popup-trigger hvr-icon-pulse"><i class="fa fa-search fa-fw hvr-icon"></i>搜索</a></li></ul></nav><div class=search-pop-overlay><div class="popup search-popup"><div class=search-header><span class=search-icon><i class="fa fa-search"></i></span><div class=search-input-container><input autocomplete=off autocapitalize=off maxlength=80 placeholder=搜索... spellcheck=false type=search class=search-input></div><span class=popup-btn-close role=button><i class="fa fa-times-circle"></i></span></div><div class="search-result-container no-result"><div class=search-result-icon><i class="fa fa-spinner fa-pulse fa-5x"></i></div></div></div></div></div><div class="toggle sidebar-toggle" role=button><span class=toggle-line></span>
+<span class=toggle-line></span>
+<span class=toggle-line></span></div><aside class=sidebar><div class="sidebar-inner sidebar-nav-active sidebar-toc-active"><ul class=sidebar-nav><li class=sidebar-nav-toc>文章目录</li><li class=sidebar-nav-overview>站点概览</li></ul><div class=sidebar-panel-container><div class="post-toc-wrap sidebar-panel"><div class="post-toc animated"><nav id=TableOfContents><ul><li><a href=#1-bug>1. bug</a></li><li><a href=#2-build>2. build</a></li><li><a href=#3-clean>3. clean</a></li><li><a href=#4-doc>4. doc</a></li><li><a href=#5env>5.env</a></li><li><a href=#6-fix>6. fix</a></li><li><a href=#7-fmt>7. fmt</a></li><li><a href=#8-generate>8. generate</a></li><li><a href=#9-get>9. get</a></li><li><a href=#10-install>10. install</a></li><li><a href=#11-list>11. list</a></li><li><a href=#12-mod>12. mod</a></li><li><a href=#13-run>13. run</a></li><li><a href=#14-test>14. test</a></li><li><a href=#15-tool>15. tool</a></li><li><a href=#16-version>16. version</a></li><li><a href=#17-vet>17. vet</a></li><li><a href=#18-godoc>18. godoc</a></li><li><a href=#19-help>19. help</a></li></ul></nav></div></div><div class="site-overview-wrap sidebar-panel"><div class="site-author site-overview-item animated" itemprop=author itemscope itemtype=http://schema.org/Person><img class=site-author-image itemprop=image alt=老罗 src=/imgs/img-lazy-loading.gif data-src=/avatar/linux.png><p class=site-author-name itemprop=name>老罗</p><div class=site-description itemprop=description>有太多的知识与回忆需要留存</div></div><div class="links-of-social site-overview-item animated"></div></div></div></div><div id=siteinfo-card-widget class=sidebar-card-widget><div class=item-headline><i class="fas fa-chart-line"></i>
+<span>网站资讯</span></div><div class=siteinfo><div class=siteinfo-item><div class=item-name><i class="fa-solid fa-calendar-check"></i>已运行：</div><div class=item-count id=runTimes data-publishdate=2019-11-17T12:00:06+09:00></div></div><div class=siteinfo-item><div class=item-name><i class="fas fa fa-user"></i>总访客数：</div><div class=item-count id=busuanzi_value_site_uv><i class="fa fa-sync fa-spin"></i></div></div><div class=siteinfo-item><div class=item-name><i class="fas fa fa-eye"></i>页面浏览：</div><div class=item-count id=busuanzi_value_site_pv><i class="fa fa-sync fa-spin"></i></div></div><div class=siteinfo-item><div class=item-name><i class="fa fa-font"></i>总字数：</div><div class=item-count id=wordsCount data-count=17154></div></div><div class=siteinfo-item><div class=item-name><i class="fa fa-mug-hot"></i>阅读约：</div><div class=item-count id=readTimes data-times=47></div></div><div class=siteinfo-item><div class=item-name><i class="fa fa-clock-rotate-left"></i>最后更新于：</div><div class=item-count id=last-push-date data-lastpushdate=2024-05-01T16:43:56+08:00></div></div></div></div></aside><div class=sidebar-dimmer></div></header><div class=tool-buttons><div id=toggle-theme class=button title=深浅模式切换><i class="fas fa-adjust"></i></div><div class=back-to-top role=button title=返回顶部><i class="fa fa-arrow-up"></i>
+<span>0%</span></div></div><div class=reading-progress-bar></div><noscript><div class=noscript-warning>Theme NexT works best with JavaScript enabled</div></noscript><div class="main-inner post posts-expand"><div class=post-block><article itemscope itemtype=http://schema.org/Article class=post-content lang><link itemprop=mainEntityOfPage href=https://luoxding.github.io/blog/post/golang-go%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%95%99%E7%A8%8B/><span hidden itemprop=author itemscope itemtype=http://schema.org/Person><meta itemprop=image content="/avatar/linux.png"><meta itemprop=name content="shongsheng"></span><span hidden itemprop=publisher itemscope itemtype=http://schema.org/Organization><meta itemprop=name content="老罗"><meta itemprop=description content="有太多的知识与回忆需要留存"></span><span hidden itemprop=post itemscope itemtype=http://schema.org/CreativeWork><meta itemprop=name content="Golang之命令行教程"><meta itemprop=description content="Go是由Robert Griesemer，Rob Pike和Ken Thompson在Google设计的一种静态类型的编译型编程语言。Go在语法上类似于C，但是具有内存安全性，垃圾回收，结构化类型和CSP样式的并发性。由于其域名golang.org，该语言通常称为“ Golang”，但专有名称是Go。"></span><header class=post-header><h1 class=post-title itemprop="name headline">Golang之命令行教程</h1><div class=post-meta-container><div class=post-meta-items><span class=post-meta-item><span class=post-meta-item-icon><i class="far fa-calendar"></i>
+</span><span class=post-meta-item-text title=发表于>发表于：
+</span><time title="创建时间：2020-03-19 00:00:00 +0000 UTC" itemprop="dateCreated datePublished" datetime="2020-03-19 00:00:00 +0000 UTC">2020-03-19
+</time></span><span class=post-meta-item><span class=post-meta-item-icon><i class="far fa-folder-open"></i>
+</span><span class=post-meta-item-text title=分类于>分类于：
+</span><span itemprop=about itemscope itemtype=http://schema.org/Thing><a href=/categories/golang itemprop=url rel=index><span itemprop=name>Golang</span></a></span></span></div><div class=post-meta-items><span class=post-meta-item title=字数><span class=post-meta-item-icon><i class="far fa-file-word"></i>
+</span><span class=post-meta-item-text>字数：</span>
+<span>1835</span>
+</span><span class=post-meta-item title=阅读><span class=post-meta-item-icon><i class="far fa-clock"></i>
+</span><span class=post-meta-item-text>阅读：&ap;</span>
+<span>4分钟</span>
+</span><span class=post-meta-item title=浏览><span class=post-meta-item-icon><i class="far fa-eye"></i>
+</span><span class=post-meta-item-text>浏览：
+</span><span id=busuanzi_value_page_pv data-path=/blog/post/golang-go%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%95%99%E7%A8%8B/><i class="fa fa-sync fa-spin"></i></span></span></div></div></header><div class="post-body autonumber" itemprop=articleBody><h1 id=一-命令行预览>一. 命令行预览
+<a class=header-anchor href=#%e4%b8%80-%e5%91%bd%e4%bb%a4%e8%a1%8c%e9%a2%84%e8%a7%88></a></h1><p>Go命令行使用二级命令，格式<code>go &lt;command> [arguments]</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span>$ go help
+</span></span><span style=display:flex><span>Go is a tool <span style=color:#66d9ef>for</span> managing Go source code.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Usage:
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        go &lt;command&gt; <span style=color:#f92672>[</span>arguments<span style=color:#f92672>]</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>The commands are:
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        bug         start a bug report
+</span></span><span style=display:flex><span>        build       compile packages and dependencies
+</span></span><span style=display:flex><span>        clean       remove object files and cached files
+</span></span><span style=display:flex><span>        doc         show documentation <span style=color:#66d9ef>for</span> package or symbol
+</span></span><span style=display:flex><span>        env         print Go environment information
+</span></span><span style=display:flex><span>        fix         update packages to use new APIs
+</span></span><span style=display:flex><span>        fmt         gofmt <span style=color:#f92672>(</span>reformat<span style=color:#f92672>)</span> package sources
+</span></span><span style=display:flex><span>        generate    generate Go files by processing source
+</span></span><span style=display:flex><span>        get         add dependencies to current module and install them
+</span></span><span style=display:flex><span>        install     compile and install packages and dependencies
+</span></span><span style=display:flex><span>        list        list packages or modules
+</span></span><span style=display:flex><span>        mod         module maintenance
+</span></span><span style=display:flex><span>        run         compile and run Go program
+</span></span><span style=display:flex><span>        test        test packages
+</span></span><span style=display:flex><span>        tool        run specified go tool
+</span></span><span style=display:flex><span>        version     print Go version
+</span></span><span style=display:flex><span>        vet         report likely mistakes in packages
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Use <span style=color:#e6db74>&#34;go help &lt;command&gt;&#34;</span> <span style=color:#66d9ef>for</span> more information about a command.
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Additional help topics:
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        buildmode   build modes
+</span></span><span style=display:flex><span>        c           calling between Go and C
+</span></span><span style=display:flex><span>        cache       build and test caching
+</span></span><span style=display:flex><span>        environment environment variables
+</span></span><span style=display:flex><span>        filetype    file types
+</span></span><span style=display:flex><span>        go.mod      the go.mod file
+</span></span><span style=display:flex><span>        gopath      GOPATH environment variable
+</span></span><span style=display:flex><span>        gopath-get  legacy GOPATH go get
+</span></span><span style=display:flex><span>        goproxy     module proxy protocol
+</span></span><span style=display:flex><span>        importpath  import path syntax
+</span></span><span style=display:flex><span>        modules     modules, module versions, and more
+</span></span><span style=display:flex><span>        module-get  module-aware go get
+</span></span><span style=display:flex><span>        module-auth module authentication using go.sum
+</span></span><span style=display:flex><span>        module-private module configuration <span style=color:#66d9ef>for</span> non-public modules
+</span></span><span style=display:flex><span>        packages    package lists and patterns
+</span></span><span style=display:flex><span>        testflag    testing flags
+</span></span><span style=display:flex><span>        testfunc    testing functions
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>Use <span style=color:#e6db74>&#34;go help &lt;topic&gt;&#34;</span> <span style=color:#66d9ef>for</span> more information about that topic.
+</span></span></code></pre></div><hr><h1 id=二-命令行说明>二. 命令行说明
+<a class=header-anchor href=#%e4%ba%8c-%e5%91%bd%e4%bb%a4%e8%a1%8c%e8%af%b4%e6%98%8e></a></h1><h2 id=1-bug>1. bug
+<a class=header-anchor href=#1-bug></a></h2><p><strong>说明：</strong> 在浏览器,向Golang官方github<code>提交bug报告</code>。</p><h2 id=2-build>2. build
+<a class=header-anchor href=#2-build></a></h2><p><strong>说明：</strong> 编译项目和文件。</p><ul><li>支持10种操作系统:<code>darwin,freebsd,linux,windows,android,dragonfly,netbsd,openbsd,plan9,solaris</code></li><li>支持9种处理器架构:<code>arm,arm64,386,amd64,ppc64,ppc64le,mips64,mips64le,s390x</code></li></ul><p><strong>交叉编译：</strong></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span>$ CGO_ENABLED<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span> GOOS<span style=color:#f92672>=</span>darwin  GOARCH<span style=color:#f92672>=</span>amd64 go build -o demo.darwin.amd64
+</span></span><span style=display:flex><span>$ CGO_ENABLED<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span> GOOS<span style=color:#f92672>=</span>linux   GOARCH<span style=color:#f92672>=</span>amd64 go build -o demo.linux.amd64
+</span></span></code></pre></div><h2 id=3-clean>3. clean
+<a class=header-anchor href=#3-clean></a></h2><p><strong>说明：</strong> 清理生成的可执行文件和包(不支持自定义的编译文件名),参考
+<a href=#10-install title=install示例>install示例
+</a>。</p><ul><li><code>-i</code> 清除关联的安装的包和可运行文件，也就是通过go install安装的文件</li><li><code>-n</code> 把需要执行的清除命令打印出来，但是不执行，这样就可以很容易的知道底层是如何运行的</li><li><code>-r</code> 循环的清除在import中引入的包</li><li><code>-x</code> 打印出来执行的详细命令，其实就是-n打印的执行版本</li></ul><h2 id=4-doc>4. doc
+<a class=header-anchor href=#4-doc></a></h2><p><strong>说明：</strong> 查看源码文档，格式：<code>go doc 包名.成员名</code>,成员可以是<code>常量、变量、结构体、函数、方法...</code>,如：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span>$ go doc fmt | less     <span style=color:#75715e>#查看标准库文档，使用less输出(空格和w控制上下翻动)</span>
+</span></span><span style=display:flex><span>$ go doc fmt.Println    <span style=color:#75715e>#查看方法</span>
+</span></span><span style=display:flex><span>$ go doc builtin        <span style=color:#75715e>#查看内置包builtin的包结构</span>
+</span></span></code></pre></div><h2 id=5env>5.env
+<a class=header-anchor href=#5env></a></h2><p><strong>说明：</strong> 打印环境信息。</p><table><thead><tr><th>名称</th><th>说明</th></tr></thead><tbody><tr><td>CGO_ENABLED        </td><td>指明cgo工具是否可用的标识</td></tr><tr><td>GOARCH</td><td>程序构建环境的目标计算架构</td></tr><tr><td>GOBIN</td><td>存放可执行文件的目录的绝对路径</td></tr><tr><td>GOCHAR</td><td>程序构建环境的目标计算架构的单字符标识</td></tr><tr><td>GOEXE</td><td>可执行文件的后缀</td></tr><tr><td>GOHOSTARCH</td><td>程序运行环境的目标计算架构</td></tr><tr><td>GOOS</td><td>程序构建环境的目标操作系统</td></tr><tr><td>GOHOSTOS</td><td>程序运行环境的目标操作系统</td></tr><tr><td>GOPATH</td><td>工作区目录的绝对路径</td></tr><tr><td>GORACE</td><td>用于数据竞争检测的相关选项</td></tr><tr><td>GOROOT</td><td>Go语言的安装目录的绝对路径</td></tr><tr><td>GOTOOLDIR</td><td>Go工具目录的绝对路径</td></tr></tbody></table><h2 id=6-fix>6. fix
+<a class=header-anchor href=#6-fix></a></h2><p><strong>说明：</strong> 源码库升级，可参考：
+<a href=https://github.com/hyper0x/go_command_tutorial/blob/71833ffcab991a2931d3106490d96008f45c3177/0.10.md title="go fix与go tool fix" rel="noopener external nofollow noreferrer" target=_blank class=exturl>go fix与go tool fix
+<i class="fa fa-external-link-alt"></i></a></p><h2 id=7-fmt>7. fmt
+<a class=header-anchor href=#7-fmt></a></h2><p><strong>说明：</strong> 格式化源码文件
+<a href=https://www.jianshu.com/p/104b33439ac2 title=查看参考文章 rel="noopener external nofollow noreferrer" target=_blank class=exturl>查看参考文章
+<i class="fa fa-external-link-alt"></i></a></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span>$ go fmt main.go
+</span></span></code></pre></div><h2 id=8-generate>8. generate
+<a class=header-anchor href=#8-generate></a></h2><p><strong>说明：</strong> 查找项目中所有源码，执行代码中诸如<code>//go:generate cmd</code>的注解命令 ，
+<a href=https://www.jianshu.com/p/a866147021da title=参考链接 rel="noopener external nofollow noreferrer" target=_blank class=exturl>参考链接
+<i class="fa fa-external-link-alt"></i>
+</a>。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#75715e>//go:generate echo hello
+</span></span></span><span style=display:flex><span><span style=color:#75715e>//go:generate go run main.go
+</span></span></span><span style=display:flex><span><span style=color:#75715e>//go:generate  echo file=$GOFILE pkg=$GOPACKAGE
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+</span></span><span style=display:flex><span>	<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;main func&#34;</span>)
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span>$ go generate <span style=color:#75715e>#执行自动生成命令</span>
+</span></span></code></pre></div><h2 id=9-get>9. get
+<a class=header-anchor href=#9-get></a></h2><p><strong>说明：</strong> 下载安装源码包，如：</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span>go get github.com/go-redis/redis/v7
+</span></span></code></pre></div><ul><li><code>-d</code> 只下载不安装</li><li><code>-f</code> 只有在你包含了-u参数的时候才有效，不让-u去验证import中的每一个都已经获取了，这对于本地fork的包特别有用</li><li><code>-fix</code> 在获取源码之后先运行fix，然后再去做其他的事情</li><li><code>-t</code> 同时也下载需要为运行测试所需要的包</li><li><code>-u</code> 强制使用网络去更新包和它的依赖包</li><li><code>-v</code> 显示执行的命令</li></ul><h2 id=10-install>10. install
+<a class=header-anchor href=#10-install></a></h2><p><strong>说明：</strong> 编译并安装</p><ul><li>第一步：生成结果文件(可执行文件或者<code>.a</code>包)；</li><li>第二步：把编译好的结果移到<code>$GOPATH/bin</code>；</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span><span style=color:#75715e># 创建main文件，并初始化mod</span>
+</span></span><span style=display:flex><span>go mod init my-first-pro
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 项目目录</span>
+</span></span><span style=display:flex><span>$ tree
+</span></span><span style=display:flex><span>.
+</span></span><span style=display:flex><span>├── go.mod
+</span></span><span style=display:flex><span>└── main.go
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 编译安装</span>
+</span></span><span style=display:flex><span><span style=color:#75715e># go install</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 查看生成到文件</span>
+</span></span><span style=display:flex><span>$ ll $GOPATH/bin
+</span></span><span style=display:flex><span>$ ll $GOPATH/pkg/darwin_amd64
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#75715e># 清理生成到文件</span>
+</span></span><span style=display:flex><span>$ go  clean -x -i
+</span></span></code></pre></div><h2 id=11-list>11. list
+<a class=header-anchor href=#11-list></a></h2><p><strong>说明：</strong> 查看包路径、名称、导入项、代码文件，测试文件，依赖项等信息。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span>$ go list -json errors|less
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-json data-lang=json><span style=display:flex><span>{
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;Dir&#34;</span>: <span style=color:#e6db74>&#34;/usr/local/go/src/errors&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;ImportPath&#34;</span>: <span style=color:#e6db74>&#34;errors&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;Name&#34;</span>: <span style=color:#e6db74>&#34;errors&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;Doc&#34;</span>: <span style=color:#e6db74>&#34;Package errors implements functions to manipulate errors.&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;Target&#34;</span>: <span style=color:#e6db74>&#34;/usr/local/go/pkg/darwin_amd64/errors.a&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;Root&#34;</span>: <span style=color:#e6db74>&#34;/usr/local/go&#34;</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;Match&#34;</span>: [
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;errors&#34;</span>
+</span></span><span style=display:flex><span>        ],
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;Goroot&#34;</span>: <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;Standard&#34;</span>: <span style=color:#66d9ef>true</span>,
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;GoFiles&#34;</span>: [
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;errors.go&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;wrap.go&#34;</span>
+</span></span><span style=display:flex><span>        ],
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;Imports&#34;</span>: [
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;internal/reflectlite&#34;</span>
+</span></span><span style=display:flex><span>        ],
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;Deps&#34;</span>: [
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;internal/bytealg&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;internal/cpu&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;internal/reflectlite&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;runtime&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;runtime/internal/atomic&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;runtime/internal/math&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;runtime/internal/sys&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;unsafe&#34;</span>
+</span></span><span style=display:flex><span>        ],
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;XTestGoFiles&#34;</span>: [
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;errors_test.go&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;example_test.go&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;wrap_test.go&#34;</span>
+</span></span><span style=display:flex><span>        ],
+</span></span><span style=display:flex><span>        <span style=color:#f92672>&#34;XTestImports&#34;</span>: [
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;errors&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;fmt&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;os&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;reflect&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;testing&#34;</span>,
+</span></span><span style=display:flex><span>                <span style=color:#e6db74>&#34;time&#34;</span>
+</span></span><span style=display:flex><span>        ]
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=12-mod>12. mod
+<a class=header-anchor href=#12-mod></a></h2><p><strong>说明：</strong> 依赖包管理,
+<a href=https://blog.csdn.net/Gusand/article/details/99507561 title=参考链接 rel="noopener external nofollow noreferrer" target=_blank class=exturl>参考链接
+<i class="fa fa-external-link-alt"></i>
+</a>。</p><h2 id=13-run>13. run
+<a class=header-anchor href=#13-run></a></h2><p><strong>说明：</strong> 运行Golang程序。</p><h2 id=14-test>14. test
+<a class=header-anchor href=#14-test></a></h2><p><strong>说明：</strong> 执行单元测试。</p><ul><li><code>-bench regexp</code> 执行相应的benchmarks，例如 -bench=.</li><li><code>-cover</code> 开启测试覆盖率</li><li><code>-run regexp</code> 只运行regexp匹配的函数，例如 -run=Array 那么就执行包含有Array开头的函数</li><li><code>-v</code> 显示测试的详细命令</li></ul><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span>$ go test demo_test.go demo.go           <span style=color:#75715e># 单元测试</span>
+</span></span><span style=display:flex><span>$ go test --cover demo_test.go demo.go   <span style=color:#75715e># 单元测试覆盖率</span>
+</span></span><span style=display:flex><span>$ go test -bench<span style=color:#f92672>=</span>. demo_test.go demo.go  <span style=color:#75715e># 性能测试</span>
+</span></span></code></pre></div><h2 id=15-tool>15. tool
+<a class=header-anchor href=#15-tool></a></h2><p><strong>说明：</strong> 运行指定的go工具, 如：<code>go tool pprof</code> 。</p><h2 id=16-version>16. version
+<a class=header-anchor href=#16-version></a></h2><p><strong>说明：</strong> 打印golang版本信息。</p><h2 id=17-vet>17. vet
+<a class=header-anchor href=#17-vet></a></h2><p><strong>说明：</strong> 用于检查静态错误,即编译不易发现的错误。
+<a href=https://studygolang.com/articles/9619 title=查看参考文章 rel="noopener external nofollow noreferrer" target=_blank class=exturl>查看参考文章
+<i class="fa fa-external-link-alt"></i></a></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span>$ go tool vet &lt;directory|files&gt;
+</span></span></code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>main</span>() {
+</span></span><span style=display:flex><span>   <span style=color:#75715e>// 1.可疑代码
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>   <span style=color:#66d9ef>var</span> <span style=color:#a6e22e>i</span> = <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>   <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#a6e22e>i</span> <span style=color:#f92672>!=</span> <span style=color:#ae81ff>0</span> <span style=color:#f92672>||</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>!=</span> <span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>   <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#a6e22e>i</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span> <span style=color:#f92672>&amp;&amp;</span> <span style=color:#a6e22e>i</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>1</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   <span style=color:#75715e>//// 2.格式化参数错误
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>   <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;%d\n&#34;</span>, <span style=color:#e6db74>&#34;hello&#34;</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   <span style=color:#75715e>// 3.除零错误
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>   <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#ae81ff>2</span> <span style=color:#f92672>/</span> <span style=color:#ae81ff>0</span>)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   <span style=color:#75715e>// 4. 读不到的代码
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>   <span style=color:#66d9ef>goto</span> <span style=color:#a6e22e>OVER</span>
+</span></span><span style=display:flex><span>   <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#e6db74>&#34;hello&#34;</span>)
+</span></span><span style=display:flex><span><span style=color:#a6e22e>OVER</span>:
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>   <span style=color:#75715e>// 5.竞态代码
+</span></span></span><span style=display:flex><span><span style=color:#75715e></span>   <span style=color:#a6e22e>words</span> <span style=color:#f92672>:=</span> []<span style=color:#66d9ef>string</span>{<span style=color:#e6db74>&#34;foo&#34;</span>, <span style=color:#e6db74>&#34;bar&#34;</span>, <span style=color:#e6db74>&#34;baz&#34;</span>}
+</span></span><span style=display:flex><span>   <span style=color:#66d9ef>for</span> <span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>word</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>words</span> {
+</span></span><span style=display:flex><span>      <span style=color:#66d9ef>go</span> <span style=color:#66d9ef>func</span>() {
+</span></span><span style=display:flex><span>         <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#a6e22e>word</span>)
+</span></span><span style=display:flex><span>      }()
+</span></span><span style=display:flex><span>   }
+</span></span><span style=display:flex><span>}
+</span></span></code></pre></div><h2 id=18-godoc>18. godoc
+<a class=header-anchor href=#18-godoc></a></h2><p><strong>说明：</strong> 用于展示指定代码包的文档。</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span>$ godoc fmt
+</span></span><span style=display:flex><span>$ godoc fmt Printf
+</span></span><span style=display:flex><span>$ godoc fmt Printf Println
+</span></span><span style=display:flex><span>$ godoc -src fmt Printf
+</span></span><span style=display:flex><span>$ godoc cmd/go
+</span></span><span style=display:flex><span>$ godoc -http<span style=color:#f92672>=</span>:9999  <span style=color:#75715e>#启动$GOROOT\doc下的帮助站点</span>
+</span></span></code></pre></div><h2 id=19-help>19. help
+<a class=header-anchor href=#19-help></a></h2><p><strong>说明：</strong> 帮助命令</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-shell data-lang=shell><span style=display:flex><span>$ go help modules
+</span></span><span style=display:flex><span>$ go help vet
+</span></span></code></pre></div><blockquote><p>参考：
+<a href=https://github.com/hyper0x/go_command_tutorial title=https://github.com/hyper0x/go_command_tutorial rel="noopener external nofollow noreferrer" target=_blank class=exturl>https://github.com/hyper0x/go_command_tutorial
+<i class="fa fa-external-link-alt"></i></a></p></blockquote></div><footer class=post-footer><div class=post-tags><a href=/tags/golang>golang
+</a><a href=/tags/command>command</a></div><div class=addthis_inline_share_toolbox style=text-align:center></div><hr><div class=post-nav><div class="post-nav-next post-nav-item"><a href=/blog/post/markdown-syntax-guide/ rel=next title="Markdown Syntax Guide"><i class="fa fa-chevron-left"></i> Markdown Syntax Guide</a></div><div class="post-nav-prev post-nav-item"><a href=/blog/post/rich-content/ rel=prev title="Rich Content">Rich Content
+<i class="fa fa-chevron-right"></i></a></div></div></footer></article></div></div></main><footer class=footer><div class=footer-inner><div class=copyright>&copy;
+<span itemprop=copyrightYear>2022 - 2024
+</span><span class=with-love><i class="fa fa-heart"></i>
+</span><span class=author itemprop=copyrightHolder>老罗</span></div><div class=powered-by>由 <a href=https://gohugo.io title=0.125.5 target=_blank>Hugo</a> & <a href=https://github.com/hugo-next/hugo-theme-next title=4.5.3 target=_blank>Hugo NexT.Gemini</a> 强力驱动</div></div></footer><script type=text/javascript src=https://cdn.staticfile.org/animejs/3.2.1/anime.min.js defer></script><script type=text/javascript src=https://cdn.staticfile.org/viewerjs/1.11.0/viewer.min.js defer></script><script class=next-config data-name=main type=application/json>{"bookmark":{"color":"#222","enable":false,"save":"manual"},"copybtn":true,"darkmode":true,"giscus":{"cfg":{"category":"Comments","categoryid":null,"emit":false,"inputposition":"top","mapping":"title","reactions":false,"repoid":null,"theme":"preferred_color_scheme"},"js":"https://giscus.app/client.js"},"hostname":"https://luoxding.github.io/blog/","i18n":{"ds_day":" 天前","ds_days":" 天 ","ds_hour":" 小时前","ds_hours":" 小时 ","ds_just":"刚刚","ds_min":" 分钟前","ds_mins":" 分钟","ds_month":" 个月前","ds_years":" 年 ","empty":"没有找到任何搜索结果：${query}","hits":"找到 ${hits} 个搜索结果","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","placeholder":"搜索..."},"lang":"zh-CN","lazyload":false,"localSearch":{"enable":true,"limit":1e3,"path":"/searchindexes.xml","preload":false,"topnperarticle":-1,"trigger":"auto","unescape":false},"motion":{"async":true,"enable":true,"transition":{"collheader":"fadeInLeft","postblock":"fadeIn","postbody":"fadeInDown","postheader":"fadeInDown","sidebar":"fadeInUp"}},"postmeta":{"comments":{"enable":true,"plugin":"waline"},"views":{"enable":true,"plugin":"busuanzi"}},"root":"/","scheme":"Gemini","sidebar":{"display":"post","offset":12,"padding":18,"position":"right","width":256},"vendor":{"plugins":"qiniu","router":"https://cdn.staticfile.org"},"version":"4.5.3","waline":{"cfg":{"emoji":false,"imguploader":false,"placeholder":"请文明发言哟 ヾ(≧▽≦*)o","reaction":true,"reactiontext":["点赞","踩一下","得意","不屑","尴尬","睡觉"],"reactiontitle":"你认为这篇文章怎么样？","requiredmeta":["nick","mail"],"serverurl":null,"sofa":"快来发表你的意见吧 (≧∀≦)ゞ","wordlimit":200},"css":{"alias":"waline","file":"dist/waline.css","name":"@waline/client","version":"2.13.0"},"js":{"alias":"waline","file":"dist/waline.js","name":"@waline/client","version":"2.13.0"}}}</script><script type=text/javascript src=/blog/js/main.min.172ae7dfd181813113a42cd33e0d01ee7d239870a49495e95982cc76539f01bb.js defer></script></body></html>
